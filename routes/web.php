@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,13 +20,13 @@ Route::get('/', function () {
 });
 
 Route::prefix('auth')->group(function () {
-    Route::controller(RegisterController::class)->group(function () {
-        Route::get('/register','showRegistrationForm')->name('auth.register.form');
-        Route::get('/register','register')->name('auth.register');
-    });
+  Route::controller(RegisterController::class)->group(function () {
+      Route::get('/register','showRegistrationForm')->name('auth.register.form');
+      Route::get('/register','register')->name('auth.register');
+  });
 
-    Route::controller(LoginController::class)->group(function (){
-        Route::get('/login','showLoginForm')->name('auth.login.form');
-        Route::post('/login','login')->name('auth.login');
-    });
+  Route::controller(LoginController::class)->group(function (){
+     Route::get('/login','showLoginForm')->name('auth.login.form');
+     Route::post('/login','login')->name('auth.login');
+  });
 });

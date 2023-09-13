@@ -14,9 +14,9 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request)
     {
-        auth()->attempt($request->only('email','password'),$request->filled('remember'));
+        $request->authenticate();
 
-        if ($this->attempLogin($request)){
+        if ($this->attemptLogin($request)) {
             return $this->sendSuccessResponse();
         }
 
@@ -31,7 +31,7 @@ class LoginController extends Controller
 
     protected function sendLoginFailedResponse()
     {
-        return back()->with('wrongCredentials',true);
+        return back()->with('wrongCredentials', true);
     }
 
     public function logout()
@@ -46,5 +46,10 @@ class LoginController extends Controller
     public function username()
     {
         return 'email';
+    }
+
+    public function attemptLogin(LoginRequest $request)
+    {
+        return auth()->attempt($request->only(['password','email']),$request->boolean('remember'));
     }
 }

@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Services\Notification\Contracts;
 use GuzzleHttp\Client;
 use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\Mail;
 
 class EmailProvider implements Contracts\Provider
 {
@@ -20,6 +21,6 @@ class EmailProvider implements Contracts\Provider
 
     public function send()
     {
-		return $this->mail->to($this->user->email);
+        return Mail::to($this->user)->send($this->mail);
     }
 }

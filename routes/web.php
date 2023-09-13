@@ -20,19 +20,19 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::prefix('auth')->name('auth')->group(function () {
+Route::prefix('auth')->group(function () {
   Route::controller(RegisterController::class)->group(function () {
-      Route::get('/register','showRegistrationForm')->name('register.form');
-      Route::get('/register','register')->name('register');
+      Route::get('/register','showRegistrationForm')->name('auth.register.form');
+      Route::get('/register','register')->name('auth.register');
   });
 
   Route::controller(LoginController::class)->group(function (){
-     Route::get('/login','showLoginForm')->name('login.form');
-     Route::post('/login','login')->name('login')->middleware('verified');
+     Route::get('/login','showLoginForm')->name('auth.login.form');
+     Route::post('/login','login')->name('auth.login')->middleware('verified');
   });
 
   Route::controller(VerificationController::class)->middleware('auth')->group(function (){
-     Route::get('email/send-verification','send')->name('email.send-verification');
-     Route::get('/email/verify','verify')->name('email.verify');;
+     Route::get('email/send-verification','send')->name('auth.email.send-verification');
+     Route::get('/email/verify','verify')->name('auth.email.verify');;
   });
 });

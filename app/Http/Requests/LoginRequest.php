@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\RecaptchaRule;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,15 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => ['required','email','exists:users,email'],
-            'password' => ['required']
+            'password' => ['required'],
+            'g-recaptcha-response' => ['required',new RecaptchaRule()]
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'g-recaptcha-response.required' => __('auth.recaptcha')
         ];
     }
 

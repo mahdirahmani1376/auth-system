@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\VerificationController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,11 +29,19 @@ Route::prefix('auth')->group(function () {
 
   Route::controller(LoginController::class)->group(function (){
      Route::get('/login','showLoginForm')->name('auth.login.form');
+     Route::get('/logout','logout')->name('auth.logout');
      Route::post('/login','login')->name('auth.login')->middleware('verified');
   });
 
   Route::controller(VerificationController::class)->middleware('auth')->group(function (){
      Route::get('email/send-verification','send')->name('auth.email.send-verification');
      Route::get('/email/verify','verify')->name('auth.email.verify');;
+  });
+
+  Route::controller(ForgetPasswordController::class)->group(function (){
+     Route::get('/password/forget','showForgetForm')->name('auth.password.forget.form');
+     Route::post('/password/forget','sendResetLink')->name('auth.password.forget');
+     Route::get('/password/reset','showResetForm')->name('auth.password.reset.form');
+     Route::post('password/reset','reset')->name('auth.password.reset');
   });
 });

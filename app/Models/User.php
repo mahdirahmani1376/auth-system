@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Jobs\SendEmailJob;
+use App\Mail\ResetPassword;
 use App\Mail\VerificationMail;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -51,5 +52,10 @@ class User extends Authenticatable
     public function sendEmailVerificationNotification()
     {
         SendEmailJob::dispatch($this,new VerificationMail($this));
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        SendEmailJob::dispatch($this,new ResetPassword($this,$token));
     }
 }

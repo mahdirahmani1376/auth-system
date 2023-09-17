@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class VerificationController extends Controller
@@ -15,11 +17,24 @@ class VerificationController extends Controller
 
     public function send()
     {
-//        if (Auth::user()->hasVerifiedEmail()){
-//            return redirect()->route('home');
-//        }
-
 		Auth::user()->sendEmailVerificationNotification();
         return back()->with('verificationEmailSent',true);
+    }
+
+    public function verify(Request $request)
+    {
+        if (! $request->user()->email === $request->query('email')){
+            throw new AuthorizationException();
+        }
+
+        if (Auth::user()->hasVerifiedEmail()){
+            return redirect()->route('home');
+        }
+
+        $request->user()->markEmailAsVerified();
+
+        session()->forget('mustVerifyEmail');
+
+        return redirect()->route('home')->with('emailHasVerified',true);
     }
 }

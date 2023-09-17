@@ -33,6 +33,11 @@ return [
     'recaptcha' => [
         'site_key' => env('recaptcha_site_key'),
         'secret_key' => env('recaptcha_secret_key'),
-    ]
+    ],
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => 'http://example.com/callback-url',
+    ],
 
 ];

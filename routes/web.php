@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ForgetPasswordController;
+use App\Http\Controllers\MagicController;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\VerificationController;
 use Illuminate\Support\Facades\Route;
@@ -49,5 +50,10 @@ Route::prefix('auth')->group(function () {
   Route::controller(SocialController::class)->group(function (){
      Route::get('redirect/{provider}','redirectToProvider')->name('auth.login.provider.redirect');
      Route::get('{provider}/callback','callbackProvider')->name('auth.login.provider.callback');
+  });
+
+  Route::controller(MagicController::class)->group(function (){
+     Route::get('magic/login','showMagicForm')->name('auth.magic.login.form');
+     Route::post('magic/login',);
   });
 });
